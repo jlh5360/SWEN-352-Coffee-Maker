@@ -45,7 +45,7 @@ public class Recipe {
         //if (name != null) {
         //this.name = name;
         
-    // fix
+    // my fix
     if (name != null && !name.trim().isEmpty()) {
         this.name = name;
     }

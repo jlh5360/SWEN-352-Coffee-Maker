@@ -154,6 +154,35 @@ public class RecipeTest {
             recipe.setAmtMilk("");
         }, "Input a valid amount for milk");
     }
+////////////////////////////////////////////////////////////////////////////////
+    // **  Tests fir the constructors */
+    @Test
+    @DisplayName("Test: Default name violates JavaDoc requirement") // Before it was just ""
+    public void testDefaultNameDefect() {
+        Recipe newRecipe = new Recipe();
+        assertTrue(newRecipe.getName().trim().length() > 0, 
+                "Must have a char for default Name");
+    }
 
+    @Test
+    @DisplayName("Test: Default constructor initializes all fields")
+    public void testDefaultConstructor() {
+        assertAll("Default constructor values",
+            () -> assertTrue(recipe.getName().trim().length() > 0, "Name should not be empty"),
+            () -> assertEquals(0, recipe.getPrice()),
+            () -> assertEquals(0, recipe.getAmtCoffee()),
+            () -> assertEquals(0, recipe.getAmtMilk()),
+            () -> assertEquals(0, recipe.getAmtSugar()),
+            () -> assertEquals(0, recipe.getAmtChocolate())
+        );
+    }
+
+    @Test
+    @DisplayName("Test: Make a valid state")
+    public void testValidState() {
+        assertNotNull(recipe.getName());
+        assertTrue(recipe.getPrice() >= 0);
+        assertTrue(recipe.getAmtCoffee() >= 0);
+    }
 
 }

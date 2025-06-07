@@ -184,5 +184,48 @@ public class RecipeTest {
         assertTrue(recipe.getPrice() >= 0);
         assertTrue(recipe.getAmtCoffee() >= 0);
     }
+////////////////////////////////////////////////////////////////////////////////
+    //** Coffee Content Tests */
+     @Test
+    @DisplayName("Test: Valid coffee amount")
+    public void testValidCoffeeAmount() {
+        assertDoesNotThrow(() -> {
+            recipe.setAmtCoffee("2");
+            assertEquals(3, recipe.getAmtCoffee());
+        });
+    }
+
+    @Test
+    @DisplayName("Test: user input ")
+    public void testZeroCoffeeAmount() {
+        assertDoesNotThrow(() -> {
+            recipe.setAmtCoffee("0");
+            assertEquals(0, recipe.getAmtCoffee());
+        });
+    }
+
+    @Test
+    @DisplayName("Test: Negative coffee amount")
+    public void testNegativeCoffeeAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtCoffee("-1");
+        }, "Negative coffee amount should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Invalid coffee amount string")
+    public void testInvalidCoffeeAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtCoffee("abc");
+        }, "Coffee amount can not be left 0 or blank");
+    }
+
+    @Test
+    @DisplayName("Test: Empty coffee amount string")
+    public void testEmptyCoffeeAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtCoffee("");
+        }, "Coffee amount can not be left 0 or blank");
+    }
 
 }

@@ -36,6 +36,8 @@ public class Recipe {
     return name;
   }
 
+
+  ///* Recipe Name Defects Fixed */
   /**
    * Set the name of this recipe.
    * @param name The name to set; must have at least one non-blank character.
@@ -44,12 +46,18 @@ public class Recipe {
     // defect: allows empty name
         //if (name != null) {
         //this.name = name;
-        
-    // my fix
-    if (name != null && !name.trim().isEmpty()) {
-        this.name = name;
+        //}
+    // my updated fix
+    if (name == null) {
+        throw new RecipeException("Recipe name can not be null ");
     }
+    if (name.trim().isEmpty()) {
+        throw new RecipeException("Recipe name can not be left blank");
+    }
+    this.name = name;
   }
+  //** Recipe Name Defects Fixed */
+
 
   /**
    * Get the amount of price needed for this recipe.

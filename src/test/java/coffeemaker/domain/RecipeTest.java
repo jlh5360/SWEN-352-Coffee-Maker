@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
-import coffeemaker.domain.Recipe;
 import coffeemaker.exceptions.RecipeException;
 
 public class RecipeTest {
@@ -58,13 +57,40 @@ public class RecipeTest {
         assertEquals("Price must be a positive integer", exception.getMessage());
     }
 
-    // Test for empty name
+////////////////////////////////////////////////////////////////////////////////
+    //** Test for a blank recipe name */ 
     @Test
-    @DisplayName("Test: empty name is not allowed")
-    public void testSetBlankName() {
-        recipe.setName("   "); // whitespace
-        assertNotEquals("   ", recipe.getName(),
-        "Empty or blank names are not allowed");
+    @DisplayName("Test: Checking if user is attempting to input a blank recipe name")
+    public void testNullNameThrowsException() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setName(null);
+        }, "You must create a recipe name");
     }
+
+    @Test
+    @DisplayName("Test: Checking if user is attempting to enter an empty string")
+    public void testEmptyStringNameThrowsException() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setName("");
+        }, "You must create a recipe name");
+    }
+
+    @Test
+    @DisplayName("Test: Checking if user is inputting whitespace only")
+    public void testWhitespaceNameThrowsException() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setName("   ");
+        }, "You must create a recipe name");
+    }
+
+    @Test
+    @DisplayName("Test: Recipe Name Attempt")
+    public void testValidNameWorks() throws RecipeException {
+        recipe.setName("Espresso");
+        assertEquals("Espresso", recipe.getName());
+    }
+////////////////////////////////////////////////////////////////////////////////
+    //** Test for price input defects */
+    
     
 }

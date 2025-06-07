@@ -1,3 +1,5 @@
+// Test file Author: Almazan, Mary
+
 package coffeemaker.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -10,7 +12,6 @@ import coffeemaker.exceptions.RecipeException;
 public class RecipeTest {
 
     // unused for task 1 for now, delete this comment later
-    @SuppressWarnings("unused")
     private Recipe recipe;
 
     // 0 code coverage - Task 1
@@ -35,26 +36,6 @@ public class RecipeTest {
         assertThrows(RecipeException.class, () -> {
             recipe.setAmtCoffee("-1");
         }, "A negative content of coffee is not allowed.");
-    }
-
-    // Test for price boundary
-    @Test
-    @DisplayName("Test: negative cost of coffee")
-    public void testNegativePrice() {
-        // throws exception for error if the price is in the negatives
-        assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("-1");
-        }, "Prices for coffee can not be negative.");
-    }
-
-    // Test for setting price amount
-    @Test
-    @DisplayName("Test: price was not set correctly")
-    public void testPriceErrorMessage() {
-        RecipeException exception = assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("-5");
-        });
-        assertEquals("Price must be a positive integer", exception.getMessage());
     }
 
 ////////////////////////////////////////////////////////////////////////////////
@@ -91,6 +72,88 @@ public class RecipeTest {
     }
 ////////////////////////////////////////////////////////////////////////////////
     //** Test for price input defects */
-    
-    
+    @Test
+    @DisplayName("Test: Can not input empty price")
+    public void testNullPricet() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice(null);
+        }, "You must input a valid price");
+    }
+
+    @Test
+    @DisplayName("Test: Can not input an empty string for price")
+    public void testEmptyPriceString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("");
+        }, "You must input a valid price");
+    }
+
+    @DisplayName("Test: Can not input whitespace only for price")
+    public void testWhitespacePriceString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("   ");
+        }, "You must input a valid price");
+    }
+
+    // Test for setting price amount
+    @Test
+    @DisplayName("Test: price was not set correctly")
+    public void testPriceErrorMessage() {
+        RecipeException exception = assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("-5");
+        });
+        assertEquals("Price must be a positive integer", exception.getMessage());
+    }
+
+    @Test
+    @DisplayName("Test: Price can not have invalid characters, only intergers")
+    public void testPriceInvalidChars() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("5abc");
+        }, "Price can not have letters");
+    }
+
+    @Test
+    @DisplayName("Test: Price can not be negative")
+    public void testNegativePrice() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("-1");
+        }, "You must input a valid price");
+    }
+////////////////////////////////////////////////////////////////////////////////
+    //** Test for milk content defects */
+    @Test
+    @DisplayName("Test: Valid milk amount")
+    public void testValidMilkAmount() {
+        assertDoesNotThrow(() -> {
+            recipe.setAmtMilk("2");
+            assertEquals(2, recipe.getAmtMilk());
+        });
+    }
+
+    @Test
+    @DisplayName("Test: Milk content can not be zero")
+    public void testNegativeMilkAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtMilk("-1");
+        }, "Can not input negative interger");
+    }
+
+    @Test
+    @DisplayName("Test: Must insert a milk amount")
+    public void testInvalidMilkString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtMilk("xyz");
+        }, "Input a valid amount for milk");
+    }
+
+    @Test
+    @DisplayName("Test: Empty milk amount string")
+    public void testEmptyMilkString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtMilk("");
+        }, "Input a valid amount for milk");
+    }
+
+
 }

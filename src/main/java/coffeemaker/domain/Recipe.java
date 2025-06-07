@@ -21,7 +21,7 @@ public class Recipe {
    * Creates a default recipe for the coffee maker.
    */
   public Recipe() {
-    this.name = "";
+    this.name = "Inset a Name"; //Defect. I just added Insert a Name inside the empty ""
     this.price = 0;
     this.amtCoffee = 0;
     this.amtMilk = 0;

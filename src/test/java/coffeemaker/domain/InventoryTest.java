@@ -11,7 +11,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InventoryTest {
     private Inventory inventory;
     private Recipe recipe;
-    private Recipe smallRecipe;
+    private Recipe insufficientCoffeeRecipe;
+    private Recipe insufficientMilkRecipe;
+    private Recipe insufficientSugarRecipe;
+    private Recipe insufficientChocolateRecipe;
 
     @BeforeEach
     void setUp() {
@@ -96,6 +99,65 @@ public class InventoryTest {
             () -> inventory.setChocolate(-10),
             "setChocolate should throw IllegalArgumentException for negative input.");
         assertEquals(initialMilk, inventory.getMilk(), "Chocolare amount should not change if invalid input is provided.");
+    }
+
+    @Test
+    @DisplayName("enoughIngredients - Should return true when all ingredients are sufficient")
+    void testEnoughIngredientsTrueWhenAllSufficient() {
+        assertTrue(inventory.enoughIngredients(recipe),
+            "enoughIngredients should return true if all ingredients are sufficient.");
+    }
+
+    @Test
+    @DisplayName("enoughIngredients - Should return false when coffee is insufficient")
+    void testEnoughIngredientsFalseWhenCoffeeInsufficient() {
+        insufficientCoffeeRecipe = new Recipe();
+        insufficientCoffeeRecipe.setAmtCoffee("16");   //Inventory has 15
+        insufficientCoffeeRecipe.setAmtMilk("1");
+        insufficientCoffeeRecipe.setAmtSugar("1");
+        insufficientCoffeeRecipe.setAmtChocolate("1");
+
+        assertFalse(inventory.enoughIngredients(insufficientCoffeeRecipe),
+            "enoughIngredients should return false if coffee is insufficient.");
+    }
+
+    @Test
+    @DisplayName("enoughIngredients - Should return false when milk is insufficient")
+    void testEnoughIngredientsFalseWhenMilkInsufficient() {
+        insufficientMilkRecipe = new Recipe();
+        insufficientMilkRecipe.setAmtCoffee("1");
+        insufficientMilkRecipe.setAmtMilk("16");   //Inventory has 15
+        insufficientMilkRecipe.setAmtSugar("1");
+        insufficientMilkRecipe.setAmtChocolate("1");
+
+        assertFalse(inventory.enoughIngredients(insufficientMilkRecipe),
+            "enoughIngredients should return false if milk is insufficient.");
+    }
+
+    @Test
+    @DisplayName("enoughIngredients - Should return false when sugar is insufficient")
+    void testEnoughIngredientsFalseWhenSugarInsufficient() {
+        insufficientSugarRecipe = new Recipe();
+        insufficientSugarRecipe.setAmtCoffee("1");
+        insufficientSugarRecipe.setAmtMilk("1");
+        insufficientSugarRecipe.setAmtSugar("16"); // Inventory has 15
+        insufficientSugarRecipe.setAmtChocolate("1");
+
+        assertFalse(inventory.enoughIngredients(insufficientSugarRecipe),
+            "enoughIngredients should return false if sugar is insufficient.");
+    }
+
+    @Test
+    @DisplayName("enoughIngredients - Should return false when chocolate is insufficient")
+    void testEnoughIngredientsFalseWhenChocolateInsufficient() {
+        insufficientChocolateRecipe = new Recipe();
+        insufficientChocolateRecipe.setAmtCoffee("1");
+        insufficientChocolateRecipe.setAmtMilk("1");
+        insufficientChocolateRecipe.setAmtSugar("1");
+        insufficientChocolateRecipe.setAmtChocolate("16");   //Inventory has 15
+        
+        assertFalse(inventory.enoughIngredients(insufficientChocolateRecipe),
+            "enoughIngredients should return false if chocolate is insufficient.");
     }
     
     @Test

@@ -19,7 +19,7 @@ public class InventoryTest {
     @BeforeEach
     void setUp() {
         inventory = new Inventory();
-        recipe = new Recipe(); // Create a simple recipe for testing
+        recipe = new Recipe();   //Create a simple recipe for testing
 
         try {
             recipe.setName("Coffee Delight");
@@ -28,6 +28,12 @@ public class InventoryTest {
             recipe.setAmtSugar("3");
             recipe.setAmtChocolate("1");
             recipe.setPrice("50");
+            
+            insufficientCoffeeRecipe = new Recipe();
+            insufficientCoffeeRecipe.setAmtCoffee("16");   //Inventory has 15
+            insufficientCoffeeRecipe.setAmtMilk("1");
+            insufficientCoffeeRecipe.setAmtSugar("1");
+            insufficientCoffeeRecipe.setAmtChocolate("1");
         } catch (Exception e) {
             fail("Failed to set up recipe: " + e.getMessage());
         }
@@ -111,12 +117,6 @@ public class InventoryTest {
     @Test
     @DisplayName("enoughIngredients - Should return false when coffee is insufficient")
     void testEnoughIngredientsFalseWhenCoffeeInsufficient() {
-        insufficientCoffeeRecipe = new Recipe();
-        insufficientCoffeeRecipe.setAmtCoffee("16");   //Inventory has 15
-        insufficientCoffeeRecipe.setAmtMilk("1");
-        insufficientCoffeeRecipe.setAmtSugar("1");
-        insufficientCoffeeRecipe.setAmtChocolate("1");
-
         assertFalse(inventory.enoughIngredients(insufficientCoffeeRecipe),
             "enoughIngredients should return false if coffee is insufficient.");
     }
@@ -175,5 +175,12 @@ public class InventoryTest {
             inventory.getCoffee(),
             "Coffee quantity should be correctly decremented after use."
         );
+    }
+    
+    @Test
+    @DisplayName("useIngredients - Should return false when ingredients are insufficient")
+    void testUseIngredientsReturnsFalseWhenInsufficient() {
+        assertFalse(inventory.useIngredients(insufficientCoffeeRecipe),
+            "useIngredients should return false when ingredients are insufficient.");
     }
 }

@@ -61,7 +61,7 @@ public class InventoryTest {
         assertThrows(
             IllegalArgumentException.class,
             () -> inventory.setCoffee(-10),
-            "setMilk should throw IllegalArgumentException for negative input.");
+            "setCoffee should throw IllegalArgumentException for negative input.");
         assertEquals(initialMilk, inventory.getMilk(), "Coffee amount should not change if invalid input is provided.");
     }
     
@@ -83,7 +83,7 @@ public class InventoryTest {
         assertThrows(
             IllegalArgumentException.class,
             () -> inventory.setSugar(-10),
-            "setMilk should throw IllegalArgumentException for negative input.");
+            "setSugar should throw IllegalArgumentException for negative input.");
         assertEquals(initialMilk, inventory.getMilk(), "Sugar amount should not change if invalid input is provided.");
     }
     
@@ -94,7 +94,7 @@ public class InventoryTest {
         assertThrows(
             IllegalArgumentException.class,
             () -> inventory.setChocolate(-10),
-            "setMilk should throw IllegalArgumentException for negative input.");
+            "setChocolate should throw IllegalArgumentException for negative input.");
         assertEquals(initialMilk, inventory.getMilk(), "Chocolare amount should not change if invalid input is provided.");
     }
     

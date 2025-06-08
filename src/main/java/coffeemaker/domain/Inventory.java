@@ -202,20 +202,19 @@ public class Inventory {
    * @return boolean
    */
   protected boolean enoughIngredients(Recipe r) {
-    boolean isEnough = true;
     if (this.coffee < r.getAmtCoffee()) {
-      isEnough = false;
+      return false;
     }
     if (this.milk < r.getAmtMilk()) {
-      isEnough = false;
+      return false;
     }
     if (this.sugar < r.getAmtSugar()) {
-      isEnough = false;
+      return false;
     }
     if (this.chocolate < r.getAmtChocolate()) {
-      isEnough = false;
+      return false;
     }
-    return isEnough;
+    return true;
   }
 
   /**

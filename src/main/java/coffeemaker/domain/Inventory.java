@@ -49,6 +49,9 @@ public class Inventory {
     if (coffee >= 0) {
       this.coffee = coffee;
     }
+    else {
+      throw new InventoryException("Units of coffee must be a positive integer");
+    }
   }
 
   /**
@@ -86,6 +89,9 @@ public class Inventory {
   public void setMilk(int milk) {
     if (milk >= 0) {
       this.milk = milk;
+    }
+    else {
+      throw new InventoryException("Units of milk must be a positive integer");
     }
   }
 
@@ -125,6 +131,9 @@ public class Inventory {
     if (sugar >= 0) {
       this.sugar = sugar;
     }
+    else {
+      throw new InventoryException("Units of sugar must be a positive integer");
+    }
   }
 
   /**
@@ -163,7 +172,9 @@ public class Inventory {
     if (chocolate >= 0) {
       this.chocolate = chocolate;
     }
-
+    else {
+      throw new InventoryException("Units of chocolate must be a positive integer");
+    }
   }
 
   /**

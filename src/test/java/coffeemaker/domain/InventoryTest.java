@@ -11,6 +11,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class InventoryTest {
     private Inventory inventory;
     private Recipe recipe;
+    private Recipe smallRecipe;
 
     @BeforeEach
     void setUp() {
@@ -51,6 +52,50 @@ public class InventoryTest {
             "addSugar should throw InventoryException when adding a negative amount"
         );
         assertEquals(initialSugar, inventory.getSugar(), "Sugar amount should not change if invalid input is provided.");
+    }
+    
+    @Test
+    @DisplayName("setCoffee - Should throw IllegalArgumentException for negative input")
+    void testSetCoffeeThrowsExceptionForNegativeInput() {
+        int initialMilk = inventory.getMilk();
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> inventory.setCoffee(-10),
+            "setMilk should throw IllegalArgumentException for negative input.");
+        assertEquals(initialMilk, inventory.getMilk(), "Coffee amount should not change if invalid input is provided.");
+    }
+    
+    @Test
+    @DisplayName("setMilk - Should throw IllegalArgumentException for negative input")
+    void testSetMilkThrowsExceptionForNegativeInput() {
+        int initialMilk = inventory.getMilk();
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> inventory.setMilk(-10),
+            "setMilk should throw IllegalArgumentException for negative input.");
+        assertEquals(initialMilk, inventory.getMilk(), "Milk amount should not change if invalid input is provided.");
+    }
+    
+    @Test
+    @DisplayName("setSugar - Should throw IllegalArgumentException for negative input")
+    void testSetSugarThrowsExceptionForNegativeInput() {
+        int initialMilk = inventory.getMilk();
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> inventory.setSugar(-10),
+            "setMilk should throw IllegalArgumentException for negative input.");
+        assertEquals(initialMilk, inventory.getMilk(), "Sugar amount should not change if invalid input is provided.");
+    }
+    
+    @Test
+    @DisplayName("setChocolate - Should throw IllegalArgumentException for negative input")
+    void testSetChocolateThrowsExceptionForNegativeInput() {
+        int initialMilk = inventory.getMilk();
+        assertThrows(
+            IllegalArgumentException.class,
+            () -> inventory.setChocolate(-10),
+            "setMilk should throw IllegalArgumentException for negative input.");
+        assertEquals(initialMilk, inventory.getMilk(), "Chocolare amount should not change if invalid input is provided.");
     }
     
     @Test

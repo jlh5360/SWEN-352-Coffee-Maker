@@ -336,6 +336,46 @@ public class InventoryTest {
             "Coffee quantity should be correctly decremented after use."
         );
     }
+
+    @Test
+    @DisplayName("useIngredients - Should correctly subtract all ingredients when exact amounts are available")
+    void testUseIngredientsExactAmounts() {
+        inventory.setCoffee(5);
+        inventory.setMilk(2);
+        inventory.setSugar(3);
+        inventory.setChocolate(1);
+
+        assertTrue(inventory.useIngredients(recipe), "Should be able to use ingredients when exact amounts are available.");
+        assertAll("Ingredients should be zero after exact use",
+            () -> assertEquals(0, inventory.getCoffee(), "Coffee should be 0."),
+            () -> assertEquals(0, inventory.getMilk(), "Milk should be 0."),
+            () -> assertEquals(0, inventory.getSugar(), "Sugar should be 0."),
+            () -> assertEquals(0, inventory.getChocolate(), "Chocolate should be 0.")
+        );
+    }
+
+    @Test
+    @DisplayName("useIngredients - Should correctly subtract all ingredients when sufficient amounts are available")
+    void testUseIngredientsSufficientAmounts() {
+        inventory.setCoffee(40);
+        inventory.setMilk(28);
+        inventory.setSugar(50);
+        inventory.setChocolate(16);
+
+        int initialCoffee = inventory.getCoffee();
+        int initialMilk = inventory.getMilk();
+        int initialSugar = inventory.getSugar();
+        int initialChocolate = inventory.getChocolate();
+
+        assertTrue(inventory.useIngredients(recipe), "Should be able to use ingredients when sufficient amounts are available.");
+
+        assertAll("All ingredients should be correctly decremented after use with sufficient amounts",
+            () -> assertEquals(initialCoffee - recipe.getAmtCoffee(), inventory.getCoffee(), "Coffee should be correctly decremented."),
+            () -> assertEquals(initialMilk - recipe.getAmtMilk(), inventory.getMilk(), "Milk should be correctly decremented."),
+            () -> assertEquals(initialSugar - recipe.getAmtSugar(), inventory.getSugar(), "Sugar should be correctly decremented."),
+            () -> assertEquals(initialChocolate - recipe.getAmtChocolate(), inventory.getChocolate(), "Chocolate should be correctly decremented.")
+        );
+    }
     
     @Test
     @DisplayName("useIngredients - Should return false when ingredients are insufficient")

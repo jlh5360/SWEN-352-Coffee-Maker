@@ -76,13 +76,48 @@ public class InventoryTest {
     @DisplayName("addCoffee - Should throw InventoryException for negative string input")
     void testAddCoffeeThrowsExceptionForNegativeStringInput() {
         int initialCoffee = inventory.getCoffee();
-        
+
         assertThrows(
             InventoryException.class,
             () -> inventory.addCoffee("-5"),
             "addCoffee should throw InventoryException for negative amount"
         );
         assertEquals(initialCoffee, inventory.getCoffee(), "Coffee amount should not change if invalid input is provided.");
+    }
+
+    @Test
+    @DisplayName("addMilk - Should add milk correctly with valid positive string input")
+    void testAddMilkWithValidPositiveString() {
+        int initialMilk = inventory.getMilk();
+        inventory.addMilk("8");
+        
+        assertEquals(initialMilk + 8, inventory.getMilk(), "Milk should increase by 8.");
+    }
+
+    @Test
+    @DisplayName("addMilk - Should throw InventoryException for non-numeric string input")
+    void testAddMilkThrowsExceptionForNonNumericInput() {
+        int initialMilk = inventory.getMilk();
+
+        assertThrows(
+            InventoryException.class,
+            () -> inventory.addMilk("xyz"),
+            "addMilk should throw InventoryException for non-numeric input"
+        );
+        assertEquals(initialMilk, inventory.getMilk(), "Milk amount should not change if invalid input is provided.");
+    }
+
+    @Test
+    @DisplayName("addMilk - Should throw InventoryException for negative string input")
+    void testAddMilkThrowsExceptionForNegativeStringInput() {
+        int initialMilk = inventory.getMilk();
+
+        assertThrows(
+            InventoryException.class,
+            () -> inventory.addMilk("-3"),
+            "addMilk should throw InventoryException for negative amount"
+        );
+        assertEquals(initialMilk, inventory.getMilk(), "Milk amount should not change if invalid input is provided.");
     }
 
     @Test

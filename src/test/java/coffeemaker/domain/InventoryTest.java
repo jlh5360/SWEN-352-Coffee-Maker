@@ -311,4 +311,17 @@ public class InventoryTest {
         assertFalse(inventory.useIngredients(insufficientCoffeeRecipe),
             "useIngredients should return false when ingredients are insufficient.");
     }
+    
+    @Test
+    @DisplayName("toString - Should return a correctly formatted string of inventory contents")
+    void testToString() {
+        String expectedString = "Coffee: 15\nMilk: 15\nSugar: 15\nChocolate: 15\n";
+        assertEquals(expectedString, inventory.toString(), "toString should return the correct inventory representation.");
+
+        inventory.setCoffee(20);
+        inventory.setMilk(10);
+        expectedString = "Coffee: 20\nMilk: 10\nSugar: 15\nChocolate: 15\n";
+        
+        assertEquals(expectedString, inventory.toString(), "toString should reflect updated inventory.");
+    }
 }

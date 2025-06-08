@@ -21,7 +21,7 @@ public class Recipe {
    * Creates a default recipe for the coffee maker.
    */
   public Recipe() {
-    this.name = "";
+    this.name = "Inset a Name"; //Defect. I just added Insert a Name inside the empty ""
     this.price = 0;
     this.amtCoffee = 0;
     this.amtMilk = 0;
@@ -36,15 +36,28 @@ public class Recipe {
     return name;
   }
 
+
+  ///* Recipe Name Defects Fixed */
   /**
    * Set the name of this recipe.
    * @param name The name to set; must have at least one non-blank character.
    */
   public void setName(String name) {
-    if (name != null) {
-      this.name = name;
+    // defect: allows empty name
+        //if (name != null) {
+        //this.name = name;
+        //}
+    // my updated fix
+    if (name == null) {
+        throw new RecipeException("Recipe name can not be null ");
     }
+    if (name.trim().isEmpty()) {
+        throw new RecipeException("Recipe name can not be left blank");
+    }
+    this.name = name;
   }
+  //** Recipe Name Defects Fixed */
+
 
   /**
    * Get the amount of price needed for this recipe.

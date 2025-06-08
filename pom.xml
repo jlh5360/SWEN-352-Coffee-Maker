@@ -62,6 +62,12 @@
     </dependency>
     <!-- END: Unit testing libraries -->
 
+  
+    <dependency>
+      <groupId>org.testng</groupId>
+      <artifactId>testng</artifactId>
+      <version>7.0.0</version>
+    </dependency>
   </dependencies>
 
   <build>

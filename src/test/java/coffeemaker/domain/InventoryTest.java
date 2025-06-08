@@ -90,7 +90,7 @@ public class InventoryTest {
     void testAddMilkWithValidPositiveString() {
         int initialMilk = inventory.getMilk();
         inventory.addMilk("8");
-        
+
         assertEquals(initialMilk + 8, inventory.getMilk(), "Milk should increase by 8.");
     }
 
@@ -153,6 +153,38 @@ public class InventoryTest {
             "addSugar should throw InventoryException when adding a negative amount"
         );
         assertEquals(initialSugar, inventory.getSugar(), "Sugar amount should not change if invalid input is provided.");
+    }
+
+    @Test
+    @DisplayName("addChocolate - Should add chocolate correctly with valid positive string input")
+    void testAddChocolateWithValidPositiveString() {
+        int initialChocolate = inventory.getChocolate();
+        inventory.addChocolate("12");
+        assertEquals(initialChocolate + 12, inventory.getChocolate(), "Chocolate should increase by 12.");
+    }
+
+    @Test
+    @DisplayName("addChocolate - Should throw InventoryException for non-numeric string input")
+    void testAddChocolateThrowsExceptionForNonNumericInput() {
+        int initialChocolate = inventory.getChocolate();
+        assertThrows(
+            InventoryException.class,
+            () -> inventory.addChocolate("badvalue"),
+            "addChocolate should throw InventoryException for non-numeric input"
+        );
+        assertEquals(initialChocolate, inventory.getChocolate(), "Chocolate amount should not change if invalid input is provided.");
+    }
+
+    @Test
+    @DisplayName("addChocolate - Should throw InventoryException for negative string input")
+    void testAddChocolateThrowsExceptionForNegativeStringInput() {
+        int initialChocolate = inventory.getChocolate();
+        assertThrows(
+            InventoryException.class,
+            () -> inventory.addChocolate("-1"),
+            "addChocolate should throw InventoryException for negative amount"
+        );
+        assertEquals(initialChocolate, inventory.getChocolate(), "Chocolate amount should not change if invalid input is provided.");
     }
     
     @Test

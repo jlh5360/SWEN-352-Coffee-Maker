@@ -51,6 +51,41 @@ public class InventoryTest {
     }
 
     @Test
+    @DisplayName("addCoffee - Should add coffee correctly with valid positive string input")
+    void testAddCoffeeWithValidPositiveString() {
+        int initialCoffee = inventory.getCoffee();
+        inventory.addCoffee("10");
+        
+        assertEquals(initialCoffee + 10, inventory.getCoffee(), "Coffee should increase by 10.");
+    }
+
+    @Test
+    @DisplayName("addCoffee - Should throw InventoryException for non-numeric string input")
+    void testAddCoffeeThrowsExceptionForNonNumericInput() {
+        int initialCoffee = inventory.getCoffee();
+
+        assertThrows(
+            InventoryException.class,
+            () -> inventory.addCoffee("invalid"),
+            "addCoffee should throw InventoryException for non-numeric input"
+        );
+        assertEquals(initialCoffee, inventory.getCoffee(), "Coffee amount should not change if invalid input is provided.");
+    }
+
+    @Test
+    @DisplayName("addCoffee - Should throw InventoryException for negative string input")
+    void testAddCoffeeThrowsExceptionForNegativeStringInput() {
+        int initialCoffee = inventory.getCoffee();
+        
+        assertThrows(
+            InventoryException.class,
+            () -> inventory.addCoffee("-5"),
+            "addCoffee should throw InventoryException for negative amount"
+        );
+        assertEquals(initialCoffee, inventory.getCoffee(), "Coffee amount should not change if invalid input is provided.");
+    }
+
+    @Test
     @DisplayName("addSugar - Should add sugar correctly with valid positive string input")
     void testAddSugarWithValidPositiveString() {
         int initialSugar = inventory.getSugar();
@@ -125,7 +160,7 @@ public class InventoryTest {
     @DisplayName("setChocolate - Should throw IllegalArgumentException for negative input")
     void testSetChocolateThrowsExceptionForNegativeInput() {
         int initialMilk = inventory.getMilk();
-        
+
         assertThrows(
             IllegalArgumentException.class,
             () -> inventory.setChocolate(-10),

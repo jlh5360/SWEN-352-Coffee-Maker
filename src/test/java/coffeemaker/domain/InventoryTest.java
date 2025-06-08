@@ -10,10 +10,23 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class InventoryTest {
     private Inventory inventory;
+    private Recipe recipe;
 
     @BeforeEach
     void setUp() {
         inventory = new Inventory();
+        recipe = new Recipe(); // Create a simple recipe for testing
+
+        try {
+            recipe.setName("Coffee Delight");
+            recipe.setAmtCoffee("5");
+            recipe.setAmtMilk("2");
+            recipe.setAmtSugar("3");
+            recipe.setAmtChocolate("1");
+            recipe.setPrice("50");
+        } catch (Exception e) {
+            fail("Failed to set up recipe: " + e.getMessage());
+        }
     }
 
     @Test
@@ -38,5 +51,22 @@ public class InventoryTest {
             "addSugar should throw InventoryException when adding a negative amount"
         );
         assertEquals(initialSugar, inventory.getSugar(), "Sugar amount should not change if invalid input is provided.");
+    }
+    
+    @Test
+    @DisplayName("useIngredients - Should correctly subtract coffee from inventory")
+    void testUseIngredientsSubtractsCoffee() {
+        int initialCoffee = inventory.getCoffee();
+        int recipeCoffee = recipe.getAmtCoffee();
+
+        assertTrue(inventory.enoughIngredients(recipe), "Should have enough ingredients initially.");
+
+        inventory.useIngredients(recipe);
+
+        assertEquals(
+            (initialCoffee - recipeCoffee),
+            inventory.getCoffee(),
+            "Coffee quantity should be correctly decremented after use."
+        );
     }
 }

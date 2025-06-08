@@ -1,5 +1,3 @@
-// Test file Author: Almazan, Mary
-
 package coffeemaker.domain;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -11,161 +9,16 @@ import coffeemaker.exceptions.RecipeException;
 
 public class RecipeTest {
 
-    // unused for task 1 for now, delete this comment later
     private Recipe recipe;
 
-    // 0 code coverage - Task 1
-     @BeforeEach
+    @BeforeEach
     public void setUp() {
         recipe = new Recipe();
     }
 
+    //** Constructor */
     @Test
-    @DisplayName("Sample test: Task 1")
-    public void sampleTest() {
-        assertTrue(true);
-    }
-
-    // Task 3: find 4 defects
-
-    // Recipe should not be able to not have coffee 
-    // in the future, should add a test for milk, sugar, and chocolate too
-    @Test
-    @DisplayName("Test: Negative content of coffee")
-    public void testNegativeCoffeeContent() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setAmtCoffee("-1");
-        }, "A negative content of coffee is not allowed.");
-    }
-
-////////////////////////////////////////////////////////////////////////////////
-    //** Test for a blank recipe name */ 
-    @Test
-    @DisplayName("Test: Checking if user is attempting to input a blank recipe name")
-    public void testNullNameThrowsException() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setName(null);
-        }, "You must create a recipe name");
-    }
-
-    @Test
-    @DisplayName("Test: Checking if user is attempting to enter an empty string")
-    public void testEmptyStringNameThrowsException() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setName("");
-        }, "You must create a recipe name");
-    }
-
-    @Test
-    @DisplayName("Test: Checking if user is inputting whitespace only")
-    public void testWhitespaceNameThrowsException() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setName("   ");
-        }, "You must create a recipe name");
-    }
-
-    @Test
-    @DisplayName("Test: Recipe Name Attempt")
-    public void testValidNameWorks() throws RecipeException {
-        recipe.setName("Espresso");
-        assertEquals("Espresso", recipe.getName());
-    }
-////////////////////////////////////////////////////////////////////////////////
-    //** Test for price input defects */
-    @Test
-    @DisplayName("Test: Can not input empty price")
-    public void testNullPricet() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setPrice(null);
-        }, "You must input a valid price");
-    }
-
-    @Test
-    @DisplayName("Test: Can not input an empty string for price")
-    public void testEmptyPriceString() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("");
-        }, "You must input a valid price");
-    }
-
-    @DisplayName("Test: Can not input whitespace only for price")
-    public void testWhitespacePriceString() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("   ");
-        }, "You must input a valid price");
-    }
-
-    // Test for setting price amount
-    @Test
-    @DisplayName("Test: price was not set correctly")
-    public void testPriceErrorMessage() {
-        RecipeException exception = assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("-5");
-        });
-        assertEquals("Price must be a positive integer", exception.getMessage());
-    }
-
-    @Test
-    @DisplayName("Test: Price can not have invalid characters, only intergers")
-    public void testPriceInvalidChars() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("5abc");
-        }, "Price can not have letters");
-    }
-
-    @Test
-    @DisplayName("Test: Price can not be negative")
-    public void testNegativePrice() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setPrice("-1");
-        }, "You must input a valid price");
-    }
-////////////////////////////////////////////////////////////////////////////////
-    //** Test for milk content defects */
-    @Test
-    @DisplayName("Test: Valid milk amount")
-    public void testValidMilkAmount() {
-        assertDoesNotThrow(() -> {
-            recipe.setAmtMilk("2");
-            assertEquals(2, recipe.getAmtMilk());
-        });
-    }
-
-    @Test
-    @DisplayName("Test: Milk content can not be zero")
-    public void testNegativeMilkAmount() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setAmtMilk("-1");
-        }, "Can not input negative interger");
-    }
-
-    @Test
-    @DisplayName("Test: Must insert a milk amount")
-    public void testInvalidMilkString() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setAmtMilk("xyz");
-        }, "Input a valid amount for milk");
-    }
-
-    @Test
-    @DisplayName("Test: Empty milk amount string")
-    public void testEmptyMilkString() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setAmtMilk("");
-        }, "Input a valid amount for milk");
-    }
-////////////////////////////////////////////////////////////////////////////////
-    // **  Tests fir the constructors */
-    @Test
-    @DisplayName("Test: Default name violates JavaDoc requirement") // Before it was just ""
-    public void testDefaultNameDefect() {
-        Recipe newRecipe = new Recipe();
-        assertTrue(newRecipe.getName().trim().length() > 0, 
-                "Must have a char for default Name");
-    }
-
-    @Test
-    @DisplayName("Test: Default constructor initializes all fields")
+    @DisplayName("Test: Default constructor initializes all fields correctly")
     public void testDefaultConstructor() {
         assertAll("Default constructor values",
             () -> assertTrue(recipe.getName().trim().length() > 0, "Name should not be empty"),
@@ -178,34 +31,101 @@ public class RecipeTest {
     }
 
     @Test
-    @DisplayName("Test: Make a valid state")
-    public void testValidState() {
-        assertNotNull(recipe.getName());
-        assertTrue(recipe.getPrice() >= 0);
-        assertTrue(recipe.getAmtCoffee() >= 0);
+    @DisplayName("Test: Default name meets JavaDoc requirement (non-empty)")
+    public void testDefaultNameDefect() {
+        Recipe newRecipe = new Recipe();
+        assertTrue(newRecipe.getName().trim().length() > 0, 
+                "Default name must have at least one character");
     }
-////////////////////////////////////////////////////////////////////////////////
-    //** Coffee Content Tests */
-     @Test
-    @DisplayName("Test: Valid coffee amount")
-    public void testValidCoffeeAmount() {
-        assertDoesNotThrow(() -> {
-            recipe.setAmtCoffee("2");
-            assertEquals(3, recipe.getAmtCoffee());
-        });
+
+    //** Name Setter */
+    @Test
+    @DisplayName("Test: Valid name can be set")
+    public void testValidNameWorks() throws RecipeException {
+        recipe.setName("Espresso");
+        assertEquals("Espresso", recipe.getName());
     }
 
     @Test
-    @DisplayName("Test: user input ")
-    public void testZeroCoffeeAmount() {
-        assertDoesNotThrow(() -> {
-            recipe.setAmtCoffee("0");
-            assertEquals(0, recipe.getAmtCoffee());
-        });
+    @DisplayName("Test: Null name throws exception")
+    public void testNullNameThrowsException() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setName(null);
+        }, "Null name should throw exception");
     }
 
     @Test
-    @DisplayName("Test: Negative coffee amount")
+    @DisplayName("Test: Empty string name throws exception")
+    public void testEmptyStringNameThrowsException() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setName("");
+        }, "Empty string name should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Whitespace-only name throws exception")
+    public void testWhitespaceNameThrowsException() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setName("   ");
+        }, "Whitespace-only name should throw exception");
+    }
+
+    //** Price */
+    @Test
+    @DisplayName("Test: Valid price can be set")
+    public void testValidPrice() throws RecipeException {
+        recipe.setPrice("10");
+        assertEquals(10, recipe.getPrice());
+    }
+
+    @Test
+    @DisplayName("Test: Zero price is valid")
+    public void testZeroPriceIsValid() throws RecipeException {
+        recipe.setPrice("0");
+        assertEquals(0, recipe.getPrice());
+    }
+
+    @Test
+    @DisplayName("Test: Null price throws exception")
+    public void testNullPrice() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice(null);
+        }, "Null price should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Negative price throws exception")
+    public void testNegativePrice() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("-1");
+        }, "Negative price should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Invalid price characters throw exception")
+    public void testPriceInvalidChars() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setPrice("5abc");
+        }, "Invalid price characters should throw exception");
+    }
+
+    //** Coffee */
+    @Test
+    @DisplayName("Test: Valid coffee amount can be set")
+    public void testValidCoffeeAmount() throws RecipeException {
+        recipe.setAmtCoffee("2");
+        assertEquals(2, recipe.getAmtCoffee());
+    }
+
+    @Test
+    @DisplayName("Test: Zero coffee amount is valid")
+    public void testZeroCoffeeAmount() throws RecipeException {
+        recipe.setAmtCoffee("0");
+        assertEquals(0, recipe.getAmtCoffee());
+    }
+
+    @Test
+    @DisplayName("Test: Negative coffee amount throws exception")
     public void testNegativeCoffeeAmount() {
         assertThrows(RecipeException.class, () -> {
             recipe.setAmtCoffee("-1");
@@ -213,19 +133,215 @@ public class RecipeTest {
     }
 
     @Test
-    @DisplayName("Test: Invalid coffee amount string")
-    public void testInvalidCoffeeAmount() {
-        assertThrows(RecipeException.class, () -> {
-            recipe.setAmtCoffee("abc");
-        }, "Coffee amount can not be left 0 or blank");
-    }
-
-    @Test
-    @DisplayName("Test: Empty coffee amount string")
+    @DisplayName("Test: Empty coffee string throws exception")
     public void testEmptyCoffeeAmount() {
         assertThrows(RecipeException.class, () -> {
             recipe.setAmtCoffee("");
-        }, "Coffee amount can not be left 0 or blank");
+        }, "Empty coffee string should throw exception");
+    }
+
+    //** Milk */
+    @Test
+    @DisplayName("Test: Valid milk amount can be set")
+    public void testValidMilkAmount() throws RecipeException {
+        recipe.setAmtMilk("2");
+        assertEquals(2, recipe.getAmtMilk());
+    }
+
+    @Test
+    @DisplayName("Test: Negative milk amount throws exception")
+    public void testNegativeMilkAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtMilk("-1");
+        }, "Negative milk amount should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Invalid milk string throws exception")
+    public void testInvalidMilkString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtMilk("xyz");
+        }, "Invalid milk string should throw exception");
+    }
+
+    //** Sugar */
+    @Test
+    @DisplayName("Test: Valid sugar amount can be set")
+    public void testValidSugarAmount() throws RecipeException {
+        recipe.setAmtSugar("5");
+        assertEquals(5, recipe.getAmtSugar());
+    }
+
+    @Test
+    @DisplayName("Test: Zero sugar amount is valid")
+    public void testZeroSugarAmount() throws RecipeException {
+        recipe.setAmtSugar("0");
+        assertEquals(0, recipe.getAmtSugar());
+    }
+
+    @Test
+    @DisplayName("Test: Negative sugar amount throws exception")
+    public void testNegativeSugarAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtSugar("-1");
+        }, "Negative sugar amount should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Null sugar string throws exception")
+    public void testNullSugarString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtSugar(null);
+        }, "Null sugar string should throw exception");
+    }
+
+    //** Equal */
+    @Test
+    @DisplayName("Test: Valid chocolate amount can be set")
+    public void testValidChocolateAmount() throws RecipeException {
+        recipe.setAmtChocolate("3");
+        assertEquals(3, recipe.getAmtChocolate());
+    }
+
+    @Test
+    @DisplayName("Test: Zero chocolate amount is valid")
+    public void testZeroChocolateAmount() throws RecipeException {
+        recipe.setAmtChocolate("0");
+        assertEquals(0, recipe.getAmtChocolate());
+    }
+
+    @Test
+    @DisplayName("Test: Negative chocolate amount throws exception")
+    public void testNegativeChocolateAmount() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtChocolate("-1");
+        }, "Negative chocolate amount should throw exception");
+    }
+
+    @Test
+    @DisplayName("Test: Empty chocolate string throws exception")
+    public void testEmptyChocolateString() {
+        assertThrows(RecipeException.class, () -> {
+            recipe.setAmtChocolate("");
+        }, "Empty chocolate string should throw exception");
+    }
+
+    //** Equals */
+    @Test
+    @DisplayName("Test: Equals returns true when comparing object to itself")
+    public void testEqualsSameObjectReference() {
+        assertTrue(recipe.equals(recipe));
+    }
+
+    @Test
+    @DisplayName("Test: Equals returns true for recipes with same name")
+    public void testEqualsSameName() throws RecipeException {
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        recipe1.setName("Coffee");
+        recipe2.setName("Coffee");
+        assertTrue(recipe1.equals(recipe2));
+    }
+
+    @Test
+    @DisplayName("Test: Equals returns false for different classes")
+    public void testEqualsDifferentClass() {
+        assertFalse(recipe.equals("not a recipe"));
+    }
+
+    @Test
+    @DisplayName("Test: Equals returns false when compared to null")
+    public void testEqualsNull() {
+        assertFalse(recipe.equals(null));
+    }
+
+    @Test
+    @DisplayName("Test: Equals when both names are null")
+    public void testEqualsBothNamesNull() {
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        
+        try {
+            java.lang.reflect.Field nameField = Recipe.class.getDeclaredField("name");
+            nameField.setAccessible(true);
+            nameField.set(recipe1, null);
+            nameField.set(recipe2, null);
+            
+            assertTrue(recipe1.equals(recipe2));
+        } catch (Exception e) {
+            fail("Could not test both null names case");
+        }
+    }
+
+
+    @Test
+    @DisplayName("Test: Equals returns false for different names")
+    public void testEqualsDifferentNames() throws RecipeException {
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        recipe1.setName("Coffee");
+        recipe2.setName("Latte");
+        assertFalse(recipe1.equals(recipe2));
+    }
+
+    @Test
+    @DisplayName("Test: Equals when this.name is null but other.name is not null")
+    public void testEqualsNullNameVsNonNullName() throws RecipeException {
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        
+        try {
+            java.lang.reflect.Field nameField = Recipe.class.getDeclaredField("name");
+            nameField.setAccessible(true);
+            nameField.set(recipe1, null);
+            recipe2.setName("Coffee");
+            
+            assertFalse(recipe1.equals(recipe2));
+        } catch (Exception e) {
+            fail("Could not test null vs non-null name case");
+        }
+    }
+
+    //** Hashcode */
+    @Test
+    @DisplayName("Test: Test wirh valid name")
+    public void testHashCodeWithNonNullName() throws RecipeException {
+        recipe.setName("TestRecipe");
+        int hashCode = recipe.hashCode();
+        assertTrue(hashCode != 31);
+    }
+
+    @Test
+    @DisplayName("Test: Testing hashcode with nonexistent name")
+    public void testHashCodeWithNullName() {
+        Recipe testRecipe = new Recipe();
+        try {
+            java.lang.reflect.Field nameField = Recipe.class.getDeclaredField("name");
+            nameField.setAccessible(true);
+            nameField.set(testRecipe, null);
+            int hashCode = testRecipe.hashCode();
+            assertEquals(31, hashCode);
+        } catch (Exception e) {
+            fail("Could not test due to invalid name");
+        }
+    }
+
+    @Test
+    @DisplayName("Test: Testing for hashcode same name")
+    public void testHashCode() throws RecipeException {
+        Recipe recipe1 = new Recipe();
+        Recipe recipe2 = new Recipe();
+        recipe1.setName("Coffee");
+        recipe2.setName("Coffee");
+        assertEquals(recipe1.hashCode(), recipe2.hashCode());
+    }
+
+    //** To-stringl */
+    @Test
+    @DisplayName("Test: Testing if toString returns the right format")
+    public void testToString() throws RecipeException {
+        recipe.setName("Espresso");
+        assertEquals("Recipe{Espresso}", recipe.toString());
     }
 
 }

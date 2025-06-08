@@ -49,6 +49,9 @@ public class Inventory {
     if (coffee >= 0) {
       this.coffee = coffee;
     }
+    else {
+      throw new InventoryException("Units of coffee must be a positive integer");
+    }
   }
 
   /**
@@ -86,6 +89,9 @@ public class Inventory {
   public void setMilk(int milk) {
     if (milk >= 0) {
       this.milk = milk;
+    }
+    else {
+      throw new InventoryException("Units of milk must be a positive integer");
     }
   }
 
@@ -125,6 +131,9 @@ public class Inventory {
     if (sugar >= 0) {
       this.sugar = sugar;
     }
+    else {
+      throw new InventoryException("Units of sugar must be a positive integer");
+    }
   }
 
   /**
@@ -138,7 +147,7 @@ public class Inventory {
     } catch (NumberFormatException e) {
       throw new InventoryException("Units of sugar must be a positive integer");
     }
-    if (amtSugar <= 0) {
+    if (amtSugar >= 0) {
       this.sugar += amtSugar;
     } else {
       throw new InventoryException("Units of sugar must be a positive integer");
@@ -163,7 +172,9 @@ public class Inventory {
     if (chocolate >= 0) {
       this.chocolate = chocolate;
     }
-
+    else {
+      throw new InventoryException("Units of chocolate must be a positive integer");
+    }
   }
 
   /**
@@ -191,20 +202,19 @@ public class Inventory {
    * @return boolean
    */
   protected boolean enoughIngredients(Recipe r) {
-    boolean isEnough = true;
     if (this.coffee < r.getAmtCoffee()) {
-      isEnough = false;
+      return false;
     }
     if (this.milk < r.getAmtMilk()) {
-      isEnough = false;
+      return false;
     }
     if (this.sugar < r.getAmtSugar()) {
-      isEnough = false;
+      return false;
     }
     if (this.chocolate < r.getAmtChocolate()) {
-      isEnough = false;
+      return false;
     }
-    return isEnough;
+    return true;
   }
 
   /**
@@ -214,7 +224,7 @@ public class Inventory {
    */
   public boolean useIngredients(Recipe r) {
     if (enoughIngredients(r)) {
-      this.coffee += r.getAmtCoffee();
+      this.coffee -= r.getAmtCoffee();
       this.milk -= r.getAmtMilk();
       this.sugar -= r.getAmtSugar();
       this.chocolate -= r.getAmtChocolate();
